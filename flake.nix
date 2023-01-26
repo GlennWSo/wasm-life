@@ -31,6 +31,7 @@
             pkgs.nil
             pkgs.vscode-fhs
             pkgs.nodePackages.typescript-language-server
+            pkgs.nodejs
           ];
       in
       {
@@ -58,7 +59,12 @@
           installPhase = "echo 'Skipping installPhase'";
         };
 
-        devShell = pkgs.mkShell {packages = inputs ++ devtools;};        
+        devShell = pkgs.mkShell {
+          packages = inputs ++ devtools;
+          postShellHook = ''
+          export NODE_OPTIONS=--openssl-legacy-provider
+          '';
+          };        
       }
     );
 }
