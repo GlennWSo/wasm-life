@@ -1,3 +1,3 @@
 import * as wasm from "wasm-life";
 
-wasm.greet();
+wasm.greet("Glenn");
