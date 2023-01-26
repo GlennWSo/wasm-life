@@ -61,8 +61,8 @@
 
         devShell = pkgs.mkShell {
           packages = inputs ++ devtools;
-          postShellHook = ''
-          export NODE_OPTIONS=--openssl-legacy-provider
+          shellHook = ''
+            export NODE_OPTIONS=--openssl-legacy-provider
           '';
           };        
       }

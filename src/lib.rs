@@ -15,8 +15,8 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn greet(name: &str) {
-    let mut msg = "Hello,".to_string();
-    msg.push_str(name);
-
+    // let mut msg = "HELLO, ".to_string();
+    // msg.push_str(name);
+    let msg = format!("Hello, {}!", name);
     alert(&msg);
 }
