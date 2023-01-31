@@ -7,7 +7,7 @@ fn clear() {
 }
 
 fn main() {
-    let mut game = World::new();
+    let mut game = World::new(64, 32);
 
     clear();
     println!("{}", game);
