@@ -74,8 +74,8 @@ impl World {
 impl World {
     pub fn new(width: u32, height: u32) -> World {
         let cells = (0..width * height)
-            .map(|i| {
-                if i % 2 == 0 || i % 7 == 0 {
+            .map(|_i| {
+                if rand::random() {
                     Cell::Alive
                 } else {
                     Cell::Dead

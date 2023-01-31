@@ -7,7 +7,7 @@ fn clear() {
 }
 
 fn main() {
-    let mut game = World::space_ship(64, 32);
+    let mut game = World::new(64, 32);
 
     clear();
     println!("{}", game);
