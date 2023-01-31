@@ -79,8 +79,8 @@ impl World {
     }
 
     pub fn new() -> World {
-        let width = 64;
-        let height = 64;
+        let width = 128;
+        let height = 32;
         let cells = (0..width * height)
             .map(|i| {
                 if i % 2 == 0 || i % 7 == 0 {
@@ -109,6 +109,7 @@ impl fmt::Display for World {
                 let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
                 write!(f, "{}", symbol)?;
             }
+            writeln!(f, "")?;
         }
         Ok(())
     }
