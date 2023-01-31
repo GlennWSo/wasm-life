@@ -1,3 +1,15 @@
-import * as wasm from "wasm-life";
+import { World } from "wasm-life";
 
-wasm.greet("Glenn");
+const pre = document.getElementById("world-canvas")
+
+const world = World.new();
+
+
+const renderLoop = () => {
+  pre.textContent = world.render();
+  world.tick();
+  requestAnimationFrame(renderLoop);
+}
+
+
+requestAnimationFrame(renderLoop);
