@@ -1,8 +1,8 @@
 import { memory} from "wasm-life/wasm_life_bg";
 import { World, Cell} from "wasm-life";
 
-const width = 128;
-const height = 64;
+const width = 256;
+const height = 128;
 
 const world = World.new(width, height);
 

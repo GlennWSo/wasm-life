@@ -32,6 +32,11 @@ impl World {
         (row as u32, col as u32)
     }
 
+    fn get_idx(&self, row: usize, col: usize) -> usize {
+        let w = self.width as usize;
+        col + row * w
+    }
+
     fn get_cell(&self, row: u32, col: u32) -> Cell {
         let idx = (row * self.width + col) as usize;
         self.cells[idx]
@@ -83,6 +88,23 @@ impl World {
             cells,
         }
     }
+    pub fn space_ship(width: u32, height: u32) -> World {
+        let size = width * height;
+        let cells = (0..size).map(|_i| Cell::Dead).collect();
+        let mut world = World {
+            width,
+            height,
+            cells,
+        };
+
+        let ship_rc = [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]];
+        for [r, c] in ship_rc {
+            let idx = world.get_idx(r, c);
+            world.cells[idx] = Cell::Alive;
+        }
+        world
+    }
+
     pub fn width(&self) -> u32 {
         self.width
     }
