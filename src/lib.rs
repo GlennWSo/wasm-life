@@ -1,3 +1,4 @@
+#[macro_use]
 mod utils;
 
 use fixedbitset::FixedBitSet;
@@ -87,6 +88,7 @@ impl World {
 #[wasm_bindgen]
 impl World {
     pub fn new(width: u32, height: u32) -> World {
+        utils::set_panic_hook();
         let mut cells = FixedBitSet::with_capacity((width * height) as usize);
 
         for (idx, life) in (0..width * height).map(|_| rand::random()).enumerate() {
@@ -128,6 +130,8 @@ impl World {
         }
 
         self.cells = next_gen;
+        #[cfg(target_arch = "wasm32")]
+        log!("Hi");
     }
 
     pub fn render(&self) -> String {

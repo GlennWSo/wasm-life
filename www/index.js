@@ -4,7 +4,7 @@ import { World} from "wasm-life";
 const width = 32*5;
 const height = 32*3;
 
-const world = World.space_ship(width, height);
+const world = World.new(width, height);
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC";
