@@ -1,10 +1,10 @@
-import { memory} from "wasm-life/wasm_life_bg";
-import { World, Cell} from "wasm-life";
+import { memory } from "wasm-life/wasm_life_bg";
+import { World} from "wasm-life";
 
-const width = 256;
-const height = 128;
+const width = 32*5;
+const height = 32*3;
 
-const world = World.new(width, height);
+const world = World.space_ship(width, height);
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC";
@@ -46,16 +46,22 @@ const getRowCol = (idx) => {
   return [row, col];
 }
 
+const bitIsSet = (n, arr) => {
+  const byte = Math.floor(n / 8);
+  const mask = 1 << (n % 8);
+  return (arr[byte] & mask) === mask;
+};
+
 const drawCells = () => {
   const cellsPtr = world.cells(); 
   const size = width * height;
-  const cells = new Uint8Array(memory.buffer, cellsPtr, size);
+  const cells = new Uint8Array(memory.buffer, cellsPtr, size/8);
 
   ctx.beginPath();
 
   for (let idx= 0; idx < size; idx++) {
     let [row, col] = getRowCol(idx);
-    ctx.fillStyle = cells[idx] === Cell.Dead
+    ctx.fillStyle = bitIsSet(idx, cells)
       ? DEAD_COLOR
       : ALIVE_COLOR;
 

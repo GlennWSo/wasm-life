@@ -7,13 +7,13 @@ fn clear() {
 }
 
 fn main() {
-    let mut game = World::new(64, 32);
+    let mut game = World::new(32, 32);
 
     clear();
     println!("{}", game);
     for _ in 0..10000 {
         game.tick();
-        let nap = Duration::from_millis(30);
+        let nap = Duration::from_millis(10);
         clear();
         sleep(nap);
         println!("{}", game);

@@ -1,5 +1,6 @@
 mod utils;
 
+use fixedbitset::FixedBitSet;
 use std::fmt;
 use wasm_bindgen::prelude::*;
 
@@ -21,7 +22,7 @@ pub enum Cell {
 pub struct World {
     width: u32,
     height: u32,
-    cells: Vec<Cell>,
+    cells: FixedBitSet,
 }
 
 impl World {
@@ -36,8 +37,11 @@ impl World {
         let w = self.width as usize;
         col + row * w
     }
+    fn get_size(&self) -> usize {
+        (self.width * self.height) as usize
+    }
 
-    fn get_cell(&self, row: u32, col: u32) -> Cell {
+    fn get_cell(&self, row: u32, col: u32) -> bool {
         let idx = (row * self.width + col) as usize;
         self.cells[idx]
     }
@@ -57,31 +61,27 @@ impl World {
         count
     }
 
-    fn cell_rules(cell: Cell, live_nbs: u8) -> Cell {
-        let next_cell = match live_nbs {
+    fn cell_rules(cell: bool, live_nbs: u8) -> bool {
+        let lives = match live_nbs {
             2 => cell,
-            3 => Cell::Alive,
+            3 => true,
             // cells cant live if nb<2
             // cells die from overpopulation if nb>3
-            _ => Cell::Dead,
+            _ => false,
         };
-
-        next_cell
+        lives
     }
 }
 
 #[wasm_bindgen]
 impl World {
     pub fn new(width: u32, height: u32) -> World {
-        let cells = (0..width * height)
-            .map(|_i| {
-                if rand::random() {
-                    Cell::Alive
-                } else {
-                    Cell::Dead
-                }
-            })
-            .collect();
+        let mut cells = FixedBitSet::with_capacity((width * height) as usize);
+
+        for (idx, life) in (0..width * height).map(|_| rand::random()).enumerate() {
+            cells.set(idx, life);
+        }
+
         World {
             width,
             height,
@@ -89,8 +89,8 @@ impl World {
         }
     }
     pub fn space_ship(width: u32, height: u32) -> World {
-        let size = width * height;
-        let cells = (0..size).map(|_i| Cell::Dead).collect();
+        let size = (width * height) as usize;
+        let cells = FixedBitSet::with_capacity(size);
         let mut world = World {
             width,
             height,
@@ -100,7 +100,7 @@ impl World {
         let ship_rc = [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]];
         for [r, c] in ship_rc {
             let idx = world.get_idx(r, c);
-            world.cells[idx] = Cell::Alive;
+            world.cells.set(idx, true);
         }
         world
     }
@@ -111,16 +111,17 @@ impl World {
     pub fn height(&self) -> u32 {
         self.height
     }
-    pub fn cells(&self) -> *const Cell {
-        self.cells.as_ptr()
+    pub fn cells(&self) -> *const u32 {
+        self.cells.as_slice().as_ptr()
     }
 
     pub fn tick(&mut self) {
         let mut next_gen = self.cells.clone();
-        for (idx, cell) in next_gen.iter_mut().enumerate() {
+        for idx in 0..self.get_size() {
             let (r, c) = self.get_row_col(idx);
             let live_nbs = self.count_live_neighbor(r, c);
-            *cell = World::cell_rules(*cell, live_nbs);
+            let alive = World::cell_rules(self.cells[idx], live_nbs);
+            next_gen.set(idx, alive);
         }
 
         self.cells = next_gen;
@@ -133,9 +134,10 @@ impl World {
 
 impl fmt::Display for World {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        for line in self.cells.as_slice().chunks(self.width as usize) {
+        let cells: Vec<bool> = (0..self.get_size()).map(|idx| self.cells[idx]).collect();
+        for line in cells.as_slice().chunks(self.width as usize) {
             for &cell in line {
-                let symbol = if cell == Cell::Dead { '◻' } else { '◼' };
+                let symbol = if cell { '◻' } else { '◼' };
                 write!(f, "{}", symbol)?;
             }
             writeln!(f, "")?;
