@@ -32,6 +32,7 @@
             pkgs.vscode-fhs
             pkgs.nodePackages.typescript-language-server
             pkgs.nodejs
+            pkgs.geckodriver
             pkgs.nodePackages.vscode-html-languageserver-bin
           ];
       in
