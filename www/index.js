@@ -1,4 +1,5 @@
-import { World, Cell } from "wasm-life";
+import { memory} from "wasm-life/wasm_life_bg";
+import { World, Cell} from "wasm-life";
 
 const width = 128;
 const height = 64;
@@ -14,7 +15,7 @@ const canvas = document.getElementById("world-canvas")
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
 
-ctx = canvas.getContext("d2");
+const ctx = canvas.getContext("2d");
 
 const drawGrid = () => {
   ctx.beginPath();
@@ -39,13 +40,37 @@ const getIndex = (row, column) => {
   return row * width + column;
 };
 
+const getRowCol = (idx) => {
+  let row = Math.floor(idx/width);
+  let col = idx % width;
+  return [row, col];
+}
+
 const drawCells = () => {
-  
+  const cellsPtr = world.cells(); 
+  const size = width * height;
+  const cells = new Uint8Array(memory.buffer, cellsPtr, size);
+
+  ctx.beginPath();
+
+  for (let idx= 0; idx < size; idx++) {
+    let [row, col] = getRowCol(idx);
+    ctx.fillStyle = cells[idx] === Cell.Dead
+      ? DEAD_COLOR
+      : ALIVE_COLOR;
+
+    let pxrow = row * (CELL_SIZE + 1) + 1; // pixel row
+    let pxcol = col * (CELL_SIZE + 1) + 1; // pixel column
+
+    ctx.fillRect(pxcol, pxrow, CELL_SIZE, CELL_SIZE)
+  }
+  ctx.stroke();
 }
 
 const renderLoop = () => {
   world.tick();
   drawGrid();
+  drawCells();
   requestAnimationFrame(renderLoop);
 }
 
