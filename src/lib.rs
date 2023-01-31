@@ -33,7 +33,8 @@ impl World {
         (row as u32, col as u32)
     }
 
-    fn get_idx(&self, row: usize, col: usize) -> usize {
+    fn get_idx(&self, row: &u32, col: &u32) -> usize {
+        let (row, col) = (*row as usize, *col as usize);
         let w = self.width as usize;
         col + row * w
     }
@@ -44,6 +45,16 @@ impl World {
     fn get_cell(&self, row: u32, col: u32) -> bool {
         let idx = (row * self.width + col) as usize;
         self.cells[idx]
+    }
+    pub fn get_cells(&self) -> &FixedBitSet {
+        &self.cells
+    }
+
+    pub fn set_cells(&mut self, targets: &[(u32, u32)]) {
+        for (row, col) in targets {
+            let idx = self.get_idx(row, col);
+            self.cells.insert(idx);
+        }
     }
 
     fn count_live_neighbor(&self, row: u32, col: u32) -> u8 {
@@ -88,22 +99,6 @@ impl World {
             cells,
         }
     }
-    pub fn space_ship(width: u32, height: u32) -> World {
-        let size = (width * height) as usize;
-        let cells = FixedBitSet::with_capacity(size);
-        let mut world = World {
-            width,
-            height,
-            cells,
-        };
-
-        let ship_rc = [[1, 0], [2, 1], [0, 2], [1, 2], [2, 2]];
-        for [r, c] in ship_rc {
-            let idx = world.get_idx(r, c);
-            world.cells.set(idx, true);
-        }
-        world
-    }
 
     pub fn width(&self) -> u32 {
         self.width
@@ -113,6 +108,14 @@ impl World {
     }
     pub fn cells(&self) -> *const u32 {
         self.cells.as_slice().as_ptr()
+    }
+
+    pub fn set_size(&mut self, width: u32, height: u32) {
+        let len = (width * height) as usize;
+        self.cells.clear();
+        self.cells.grow(len);
+        self.width = width;
+        self.height = height;
     }
 
     pub fn tick(&mut self) {
