@@ -67,20 +67,7 @@ impl World {
 
 #[wasm_bindgen]
 impl World {
-    pub fn tick(&mut self) {
-        let mut next_gen = self.cells.clone();
-        for (idx, cell) in next_gen.iter_mut().enumerate() {
-            let (r, c) = self.get_row_col(idx);
-            let live_nbs = self.count_live_neighbor(r, c);
-            *cell = World::cell_rules(*cell, live_nbs);
-        }
-
-        self.cells = next_gen;
-    }
-
-    pub fn new() -> World {
-        let width = 128;
-        let height = 32;
+    pub fn new(width: u32, height: u32) -> World {
         let cells = (0..width * height)
             .map(|i| {
                 if i % 2 == 0 || i % 7 == 0 {
@@ -95,6 +82,26 @@ impl World {
             height,
             cells,
         }
+    }
+    pub fn width(&self) -> u32 {
+        self.width
+    }
+    pub fn height(&self) -> u32 {
+        self.height
+    }
+    pub fn cells(&self) -> *const Cell {
+        self.cells.as_ptr()
+    }
+
+    pub fn tick(&mut self) {
+        let mut next_gen = self.cells.clone();
+        for (idx, cell) in next_gen.iter_mut().enumerate() {
+            let (r, c) = self.get_row_col(idx);
+            let live_nbs = self.count_live_neighbor(r, c);
+            *cell = World::cell_rules(*cell, live_nbs);
+        }
+
+        self.cells = next_gen;
     }
 
     pub fn render(&self) -> String {
