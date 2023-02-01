@@ -128,7 +128,7 @@ impl World {
     }
 
     /// panics if row or col is out of range
-    pub fn toogle_cell(&mut self, row: u32, col: u32) {
+    pub fn toggle_cell(&mut self, row: u32, col: u32) {
         let idx = self.get_idx(row, col);
         self.cells.toggle(idx);
     }
