@@ -1,5 +1,7 @@
-import { memory } from "wasm-life/wasm_life_bg";
-import { World} from "wasm-life";
+import init from "./pkg/wasm_life.js"
+import { World} from "./pkg/wasm_life.js";
+let wasm = await init();
+let memory = wasm.memory;
 
 const width = 32*2;
 const height = 30;
