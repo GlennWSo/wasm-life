@@ -1,8 +1,5 @@
 #!/usr/bin/env fish
-echo hello
-wasm-pack build --debug
-rm -rf www/node_modules/wasm-life
-cd www
-npm install wasm-life
-npm run build
-npm run start
+echo running debug mode
+wasm-pack build --debug --target web
+echo redirecting server msg to server.log
+nohup python -m http.server > server.log
