@@ -7,10 +7,13 @@ const height = 32*1;
 let world = World.new(width, height);
 
 const randBtn = document.getElementById("random");
-
 randBtn.addEventListener("click", () => {
   world = World.new(width, height);
-  
+})
+
+const clearBtn = document.getElementById("clear");
+clearBtn.addEventListener("click", () => {
+  world.clear();
 })
 
 

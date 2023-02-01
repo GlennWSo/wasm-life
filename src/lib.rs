@@ -133,6 +133,19 @@ impl World {
         self.cells.toggle(idx);
     }
 
+    pub fn spawn_ship(&mut self, row: u32, col: u32) {
+        let mut ship = vec![(1, 2), (2, 3), (3, 1), (3, 2), (3, 3)];
+        for (r, c) in &mut ship {
+            *r += row;
+            *c += col;
+        }
+        self.set_cells(&ship);
+    }
+
+    pub fn clear(&mut self) {
+        self.cells.clear();
+    }
+
     pub fn tick(&mut self) {
         let mut next_gen = self.cells.clone();
         for idx in 0..self.get_size() {
