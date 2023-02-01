@@ -34,11 +34,10 @@ impl World {
         (row as u32, col as u32)
     }
 
-    /// panics if row or col is out of range
-    fn get_idx(&self, row: u32, col: u32) -> usize {
-        if (row >= self.height) || (col >= self.width) {
-            panic!("row | col is out of range");
-        }
+    /// wraps around if col or row is out of bounds
+    fn get_idx(&self, mut row: u32, mut col: u32) -> usize {
+        row = row % self.height;
+        col = col % self.width;
         let (row, col) = (row as usize, col as usize);
         let w = self.width as usize;
         col + row * w
@@ -127,10 +126,22 @@ impl World {
         self.height = height;
     }
 
-    /// panics if row or col is out of range
     pub fn toggle_cell(&mut self, row: u32, col: u32) {
         let idx = self.get_idx(row, col);
         self.cells.toggle(idx);
+    }
+
+    pub fn spawn_ship(&mut self, row: u32, col: u32) {
+        let mut ship = vec![(1, 2), (2, 3), (3, 1), (3, 2), (3, 3)];
+        for (r, c) in &mut ship {
+            *r += row;
+            *c += col;
+        }
+        self.set_cells(&ship);
+    }
+
+    pub fn clear(&mut self) {
+        self.cells.clear();
     }
 
     pub fn tick(&mut self) {

@@ -7,10 +7,13 @@ const height = 32*1;
 let world = World.new(width, height);
 
 const randBtn = document.getElementById("random");
-
 randBtn.addEventListener("click", () => {
   world = World.new(width, height);
-  
+})
+
+const clearBtn = document.getElementById("clear");
+clearBtn.addEventListener("click", () => {
+  world.clear();
 })
 
 
@@ -25,7 +28,7 @@ const canvas = document.getElementById("world-canvas")
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
 
-canvas.addEventListener("click", event => {
+const getClickRC = (event) => {
   const boundRect = canvas.getBoundingClientRect();
   const scaleX = canvas.width /boundRect.width;
   const scaleY = canvas.height /boundRect.height;
@@ -33,11 +36,18 @@ canvas.addEventListener("click", event => {
   const canvasTop = (event.clientY - boundRect.top) * scaleY;
   const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height);
   const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width);
+  return [row, col];
+}
 
-  world.toggle_cell(row, col);
+canvas.addEventListener("click", event => {
+  const [row, col] = getClickRC(event);
+  if (event.ctrlKey) {
+    world.spawn_ship(row, col);
+  } else {
+    world.toggle_cell(row, col);
+  }
   drawGrid();
   drawCells();
-  
 })
 
 
