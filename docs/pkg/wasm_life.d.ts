@@ -44,6 +44,11 @@ export class World {
 */
   spawn_ship(row: number, col: number): void;
 /**
+* @param {number} row
+* @param {number} col
+*/
+  spawn_diehard1(row: number, col: number): void;
+/**
 */
   clear(): void;
 /**
@@ -67,6 +72,7 @@ export interface InitOutput {
   readonly world_set_size: (a: number, b: number, c: number) => void;
   readonly world_toggle_cell: (a: number, b: number, c: number) => void;
   readonly world_spawn_ship: (a: number, b: number, c: number) => void;
+  readonly world_spawn_diehard1: (a: number, b: number, c: number) => void;
   readonly world_clear: (a: number) => void;
   readonly world_tick: (a: number) => void;
   readonly world_render: (a: number, b: number) => void;
