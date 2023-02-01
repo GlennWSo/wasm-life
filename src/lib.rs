@@ -85,6 +85,9 @@ impl World {
     }
 }
 
+/// # Web API
+/// these methods are callable from JavaScript running inside
+/// web browsers
 #[wasm_bindgen]
 impl World {
     pub fn new(width: u32, height: u32) -> World {
