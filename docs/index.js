@@ -1,5 +1,5 @@
-import { memory } from "wasm-life/wasm_life_bg";
-import { World} from "wasm-life";
+import { memory } from "./wasm-life/wasm_life_bg";
+import { World} from "./wasm-life";
 
 const width = 32*2;
 const height = 30;

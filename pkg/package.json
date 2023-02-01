@@ -7,7 +7,6 @@
   "files": [
     "wasm_life_bg.wasm",
     "wasm_life.js",
-    "wasm_life_bg.js",
     "wasm_life.d.ts"
   ],
   "module": "wasm_life.js",
