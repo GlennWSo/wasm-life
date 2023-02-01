@@ -17,6 +17,9 @@
         background-color:#3c3836;
         font-family: 'JetBrains Mono', monospace;
       }
+      radio {
+        
+      }
       body {
         // position: absolute;
         background-color:#1d2021;
@@ -29,6 +32,26 @@
         align-items: center;
         justify-content: center;
       }
+      input {
+        appearance: none;
+
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+
+        border: 2px solid #999;
+        transition: 0.2s all linear;
+        margin-right: 5px;
+
+        position: relative;
+        top: 4px;
+      }
+
+
+      input:checked {
+        border: 6px solid;
+      }
+      
     </style>
   </head>
   <body>
@@ -42,7 +65,13 @@
 
     </h3>
     <canvas id="world-canvas"></canvas>
-    <p> Hint: Ctrl+Click to spawn space ships!</p>
+
+    
+    <p>
+    <input type="radio" id="glider_radio" name="spawn_radio" value="glider">
+    <input type="radio" id="bomb_radio" name="spawn_radio" value="dot">
+    <input type="radio" id="dot_radio" name="spawn_radio" value="dot">
+    </p>    
     <script type="module" src="./index.js">
     </script>
   </body>

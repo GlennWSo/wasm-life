@@ -199,6 +199,13 @@ export class World {
         wasm.world_spawn_ship(this.ptr, row, col);
     }
     /**
+    * @param {number} row
+    * @param {number} col
+    */
+    spawn_diehard1(row, col) {
+        wasm.world_spawn_diehard1(this.ptr, row, col);
+    }
+    /**
     */
     clear() {
         wasm.world_clear(this.ptr);

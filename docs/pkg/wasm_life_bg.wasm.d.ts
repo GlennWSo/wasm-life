@@ -9,6 +9,7 @@ export function world_cells(a: number): number;
 export function world_set_size(a: number, b: number, c: number): void;
 export function world_toggle_cell(a: number, b: number, c: number): void;
 export function world_spawn_ship(a: number, b: number, c: number): void;
+export function world_spawn_diehard1(a: number, b: number, c: number): void;
 export function world_clear(a: number): void;
 export function world_tick(a: number): void;
 export function world_render(a: number, b: number): void;
