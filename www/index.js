@@ -2,7 +2,7 @@ import { memory } from "wasm-life/wasm_life_bg";
 import { World} from "wasm-life";
 
 const width = 32*2;
-const height = 32*1;
+const height = 30;
 
 let world = World.new(width, height);
 
@@ -16,13 +16,10 @@ clearBtn.addEventListener("click", () => {
   world.clear();
 })
 
-
-
-
 const CELL_SIZE = 15; // px
 const GRID_COLOR = "#CCCCCC";
-const DEAD_COLOR = "#FFFFFF";
-const ALIVE_COLOR = "#000000";
+const DEAD_COLOR = "#282828";
+const ALIVE_COLOR = "#b8bb26";
 
 const canvas = document.getElementById("world-canvas")
 canvas.height = (CELL_SIZE + 1) * height + 1;
@@ -100,8 +97,8 @@ const drawCells = () => {
   for (let idx= 0; idx < size; idx++) {
     let [row, col] = getRowCol(idx);
     ctx.fillStyle = bitIsSet(idx, cells)
-      ? DEAD_COLOR
-      : ALIVE_COLOR;
+      ? ALIVE_COLOR
+      : DEAD_COLOR;
 
     let pxrow = row * (CELL_SIZE + 1) + 1; // pixel row
     let pxcol = col * (CELL_SIZE + 1) + 1; // pixel column
@@ -125,11 +122,11 @@ const isPaused = () => {
 const playButton = document.getElementById("play-pause");
 
 const play = () => {
-  playButton.textContent = '⏸'
+  playButton.textContent = "⏸"
   renderLoop();
 };
 const pause = () => {
-  playButton.textContent = '▶'
+  playButton.textContent = "▶"
   cancelAnimationFrame(animationId);
   animationId = null;
 };
