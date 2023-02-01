@@ -1,8 +1,4 @@
 import init from "./wasm_life.js"
-// async function run() {
-//  return await init();
-// };
-// import { memory } from "./wasm_life_bg.js";
 import { World} from "./wasm_life.js";
 let wasm = await init();
 let memory = wasm.memory;
