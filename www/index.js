@@ -1,12 +1,12 @@
 import { memory } from "wasm-life/wasm_life_bg";
 import { World} from "wasm-life";
 
-const width = 32*5;
-const height = 32*3;
+const width = 32*2;
+const height = 32*1;
 
 const world = World.new(width, height);
 
-const CELL_SIZE = 5; // px
+const CELL_SIZE = 15; // px
 const GRID_COLOR = "#CCCCCC";
 const DEAD_COLOR = "#FFFFFF";
 const ALIVE_COLOR = "#000000";
