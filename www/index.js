@@ -9,11 +9,15 @@ let world = World.new(width, height);
 const randBtn = document.getElementById("random");
 randBtn.addEventListener("click", () => {
   world = World.new(width, height);
+  drawGrid();
+  drawCells();
 })
 
 const clearBtn = document.getElementById("clear");
 clearBtn.addEventListener("click", () => {
   world.clear();
+  drawGrid();
+  drawCells();
 })
 
 const CELL_SIZE = 15; // px
