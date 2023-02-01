@@ -42,19 +42,19 @@ const getClickRC = (event) => {
   return [row, col];
 }
 
+const radio = document.getElementsByName("spawn_radio");
 canvas.addEventListener("click", event => {
   const [row, col] = getClickRC(event);
-  if (event.ctrlKey) {
+  if (radio[0].checked) {
+    console.log("spawing ship");
     world.spawn_ship(row, col);
   } else {
+    console.log("toggle cell");
     world.toggle_cell(row, col);
   }
   drawGrid();
   drawCells();
 })
-
-
-
 
 const ctx = canvas.getContext("2d");
 
