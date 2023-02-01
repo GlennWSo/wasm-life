@@ -5,4 +5,5 @@ rm -rf docs
 mkdir docs
 cp index.* docs/
 cp -r pkg docs/
+rm docs/pkg/.gitignore
 python -m http.server -d docs
