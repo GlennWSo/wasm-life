@@ -4,7 +4,17 @@ import { World} from "wasm-life";
 const width = 32*2;
 const height = 32*1;
 
-const world = World.new(width, height);
+let world = World.new(width, height);
+
+const randBtn = document.getElementById("random");
+
+randBtn.addEventListener("click", () => {
+  world = World.new(width, height);
+  
+})
+
+
+
 
 const CELL_SIZE = 15; // px
 const GRID_COLOR = "#CCCCCC";
