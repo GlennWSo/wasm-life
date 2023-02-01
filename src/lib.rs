@@ -109,6 +109,7 @@ impl World {
         self.height
     }
     pub fn cells(&self) -> *const u32 {
+        panic!();
         self.cells.as_slice().as_ptr()
     }
 
