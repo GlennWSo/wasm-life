@@ -1,0 +1,16 @@
+{
+  "name": "wasm-life",
+  "collaborators": [
+    "GlennWSo <sondellglenn@gmail.com>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "wasm_life_bg.wasm",
+    "wasm_life.js",
+    "wasm_life_bg.js",
+    "wasm_life.d.ts"
+  ],
+  "module": "wasm_life.js",
+  "types": "wasm_life.d.ts",
+  "sideEffects": false
+}
