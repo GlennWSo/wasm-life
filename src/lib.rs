@@ -74,11 +74,6 @@ impl World {
     }
 
     fn cell_rules(cell: bool, live_nbs: u8) -> bool {
-        log!(
-            "cell is initially {:?} and has {} live neighbors",
-            cell,
-            live_nbs,
-        );
         let lives = match live_nbs {
             2 => cell,
             3 => true,
@@ -86,7 +81,6 @@ impl World {
             // cells die from overpopulation if nb>3
             _ => false,
         };
-        log!("cell will live:{}", lives);
         lives
     }
 }
@@ -130,7 +124,6 @@ impl World {
         let mut next_gen = self.cells.clone();
         for idx in 0..self.get_size() {
             let (r, c) = self.get_row_col(idx);
-            log!("updating cell at [{}, {}]", r, c);
             let live_nbs = self.count_live_neighbor(r, c);
             let alive = World::cell_rules(self.cells[idx], live_nbs);
             next_gen.set(idx, alive);
