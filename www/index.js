@@ -15,6 +15,24 @@ const canvas = document.getElementById("world-canvas")
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
 
+canvas.addEventListener("click", event => {
+  const boundRect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width /boundRect.width;
+  const scaleY = canvas.height /boundRect.height;
+  const canvasLeft = (event.clientX - boundRect.left) * scaleX;
+  const canvasTop = (event.clientY - boundRect.top) * scaleY;
+  const row = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height);
+  const col = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width);
+
+  world.toggle_cell(row, col);
+  drawGrid();
+  drawCells();
+  
+})
+
+
+
+
 const ctx = canvas.getContext("2d");
 
 const drawGrid = () => {

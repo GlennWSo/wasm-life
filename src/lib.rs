@@ -34,8 +34,12 @@ impl World {
         (row as u32, col as u32)
     }
 
-    fn get_idx(&self, row: &u32, col: &u32) -> usize {
-        let (row, col) = (*row as usize, *col as usize);
+    /// panics if row or col is out of range
+    fn get_idx(&self, row: u32, col: u32) -> usize {
+        if (row >= self.height) || (col >= self.width) {
+            panic!("row | col is out of range");
+        }
+        let (row, col) = (row as usize, col as usize);
         let w = self.width as usize;
         col + row * w
     }
@@ -53,7 +57,7 @@ impl World {
 
     pub fn set_cells(&mut self, targets: &[(u32, u32)]) {
         for (row, col) in targets {
-            let idx = self.get_idx(row, col);
+            let idx = self.get_idx(*row, *col);
             self.cells.insert(idx);
         }
     }
@@ -85,6 +89,9 @@ impl World {
     }
 }
 
+/// # Web API
+/// these methods are callable from JavaScript running inside
+/// web browsers
 #[wasm_bindgen]
 impl World {
     pub fn new(width: u32, height: u32) -> World {
@@ -118,6 +125,12 @@ impl World {
         self.cells.grow(len);
         self.width = width;
         self.height = height;
+    }
+
+    /// panics if row or col is out of range
+    pub fn toggle_cell(&mut self, row: u32, col: u32) {
+        let idx = self.get_idx(row, col);
+        self.cells.toggle(idx);
     }
 
     pub fn tick(&mut self) {
