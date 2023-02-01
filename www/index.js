@@ -73,12 +73,35 @@ const drawCells = () => {
   ctx.stroke();
 }
 
+let animationId = null;
 const renderLoop = () => {
   world.tick();
   drawGrid();
   drawCells();
-  requestAnimationFrame(renderLoop);
+   animationId = requestAnimationFrame(renderLoop);
+}
+const isPaused = () => {
+  return animationId === null;
 }
 
+const playButton = document.getElementById("play-pause");
 
-requestAnimationFrame(renderLoop);
+const play = () => {
+  playButton.textContent = '⏸'
+  renderLoop();
+};
+const pause = () => {
+  playButton.textContent = '▶'
+  cancelAnimationFrame(animationId);
+  animationId = null;
+};
+
+playButton.addEventListener("click", event => {
+  if (isPaused()) {
+    play();
+  } else {
+    pause();
+  }
+});
+
+play();
