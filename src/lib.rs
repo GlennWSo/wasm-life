@@ -140,6 +140,15 @@ impl World {
         self.set_cells(&ship);
     }
 
+    pub fn spawn_diehard1(&mut self, row: u32, col: u32) {
+        let mut bomb = vec![(0, 1), (0, 2), (1, 0), (1, 1), (2, 1)];
+        for (r, c) in &mut bomb {
+            *r += row;
+            *c += col;
+        }
+        self.set_cells(&bomb);
+    }
+
     pub fn clear(&mut self) {
         self.cells.clear();
     }
