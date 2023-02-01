@@ -45,9 +45,13 @@ const getClickRC = (event) => {
 const radio = document.getElementsByName("spawn_radio");
 canvas.addEventListener("click", event => {
   const [row, col] = getClickRC(event);
+  console.log("canvas cliced at:", row, col);
   if (radio[0].checked) {
-    console.log("spawing ship");
+    console.log("spaw ship");
     world.spawn_ship(row, col);
+  } else if (radio[1].checked){
+    console.log("spaw die hard");
+    world.spawn_diehard1(row, col);
   } else {
     console.log("toggle cell");
     world.toggle_cell(row, col);
